@@ -19,7 +19,7 @@ textarea = driver.find_element_by_css_selector(".textarea")
 
 # Напишем текст ответа в найденное поле
 textarea.send_keys("get()")
-time.sleep(5)
+time.sleep(1)
 
 # Найдем кнопку, которая отправляет введенное решение
 submit_button = driver.find_element_by_css_selector(".submit-submission")
