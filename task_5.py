@@ -4,6 +4,8 @@ import time
 
 login = "admin"
 
+# Проверка тэгов у каждой уточки
+
 
 def open_browser(driver):
     driver.get("http://localhost/litecart/public_html/admin/")

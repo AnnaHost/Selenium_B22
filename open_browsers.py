@@ -1,6 +1,8 @@
 from selenium import webdriver
 import time
 
+# Авторизация в нескольких браузерах
+
 
 def open_browser(driver):
     driver.get("http://localhost/litecart/public_html/admin/")

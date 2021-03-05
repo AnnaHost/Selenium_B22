@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
+# Проход по всем разделам на сайте
+
 
 def open_browser(driver):
     driver.get("http://localhost/litecart/public_html/admin/")
