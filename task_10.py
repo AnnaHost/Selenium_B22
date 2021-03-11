@@ -61,25 +61,38 @@ curr_duck.click()
 # 2 duck
 duck = driver.find_element_by_id("box-product")
 name_duck = duck.find_element_by_class_name("title").text
-
+# campaign_price
 campaign_price_duck = formate_price(
     duck.find_element_by_class_name("campaign-price").text)
-regular_price_duck = formate_price(
-    duck.find_element_by_class_name("regular-price").text)
+# regular_price
+regular = duck.find_element_by_class_name("regular-price").
+regular_price_duck = formate_price(regular.text)
+
+font_decoration_regular_price_duck = regular_price_duck.value_of_css_property(
+    "text-decoration-line")
+font_color_regular_price_duck = regular_price_duck.value_of_css_property(
+    "color")
+font_size_regular_price_duck = float(regular_price_duck.value_of_css_property(
+    "font-size").replace("px", ''))
+print(font_decoration_regular_price_duck)
+print(font_color_regular_price_duck)
+print(font_size_regular_price_duck)
+
+# пункт a
 if name_duck == name_curr_duck:
     print("Названия совпадают: " + name_duck)
 # пункт б
 if (formatted_campaign_price == campaign_price_duck) and (formatted_regular_price == regular_price_duck):
     print("Размеры цен совпадают")
 # пункт в
-
-if (font_decoration_regular_price == "line-through"):  # todo font_color_campaign_price
-    print("Обычная цена серая и зачеркнутая")
+if (font_decoration_regular_price == "line-through" and font_color_campaign_price == "rgba(204, 0, 0, 1)"):
+    print("Обычная цена серая и зачеркнутая на главной странице")
 # пункт г
-if (font_weight_campaign_price >= 700):  # todo font_color_regular_price
-    print("Акционная цена красная и жирная")
+if (font_weight_campaign_price >= 700 and font_color_regular_price == "rgba(119, 119, 119, 1)"):  # todo
+    print("Акционная цена красная и жирная на главной странице")
 # пункт д
 if (font_size_campaign_price > font_size_regular_price):
     print("Размер акционной цены крупнее обычной, на главной странице")
-
+if (font_size_campaign_price > font_size_regular_price):
+    print("Размер акционной цены крупнее обычной, на главной странице")
 driver.close()

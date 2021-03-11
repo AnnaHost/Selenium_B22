@@ -60,12 +60,10 @@ def sorted_geozone():
 
 
 def check_geozones():
-    print(driver.current_url)
     names = driver.find_elements_by_css_selector(
         ".dataTable td:nth-child(3) input")
     mass = []
     for i in names:
-        print(i.get_attribute("type"))
         if ((i.get_attribute("type")) == "hidden"):
             mass.append(i.text)
 
@@ -77,12 +75,12 @@ def check_geozones():
             sorted_mass = False
             break
         i = i + 1
-
+    curr_counrty = driver.find_element_by_css_selector(
+        "table #content  tr:nth-child(4) strong ~ input ").get_attribute("value")
     if sorted_mass:
-        print("Список геозон отсортирован")
+        print("Список геозон отсортирован для страны " + curr_counrty)
     else:
         print("Список геозон не отсортирован")
-    time.sleep(5)
 
 
 driver = webdriver.Chrome()
