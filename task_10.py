@@ -19,20 +19,21 @@ def formate_price(price):
     return int(price[1:])
 
 
-def compare(L, R, type_compare):
-    if L == R:
-        print("Значения: \"" + type_compare + "\" совпадают.")
-    elif L > R:
-        print("Значение \" " + type_compare + "\"" +
-              str(L) + "больше чем " + str(R))
+def slpit_rgba(rgba_string):
+    curr_string = ""
+    if 'rgba' in rgba_string:
+        curr_string = rgba_string.replace("rgba(", '')
     else:
-        print("Значение \"" + type_compare + "\"" +
-              str(L) + "меньше чем " + str(R))
+        curr_string = rgba_string.replace("rgb(", '')
+    curr_string = curr_string.replace(")", '')
+    curr_string = curr_string.replace(" ", '')
+    curr = curr_string.split(",")
+    return curr
 
 
-driver = webdriver.Chrome()
-# driver = webdriver.Firefox()
-# driver = webdriver.Ie()
+#driver = webdriver.Chrome()
+#driver = webdriver.Firefox()
+driver = webdriver.Ie()
 open_browser()
 
 curr_duck = driver.find_element_by_css_selector("#box-campaigns .link")
@@ -44,39 +45,46 @@ campaign_price = curr_duck.find_element_by_class_name("campaign-price")
 formatted_campaign_price = formate_price(campaign_price.text)
 font_weight_campaign_price = int(campaign_price.value_of_css_property(
     "font-weight"))
-font_color_campaign_price = campaign_price.value_of_css_property("color")
+font_color_campaign_price = slpit_rgba(campaign_price.value_of_css_property(
+    "color"))
 font_size_campaign_price = float(campaign_price.value_of_css_property(
     "font-size").replace("px", ''))
+
 # regular_price
 regular_price = curr_duck.find_element_by_class_name("regular-price")
 formatted_regular_price = formate_price(regular_price.text)
-font_decoration_regular_price = regular_price.value_of_css_property(
-    "text-decoration-line")
-font_color_regular_price = regular_price.value_of_css_property("color")
+font_decoration_regular_price = regular_price.get_attribute("outerHTML")[1:2]
+font_color_regular_price = slpit_rgba(
+    regular_price.value_of_css_property("color"))
 font_size_regular_price = float(regular_price.value_of_css_property(
     "font-size").replace("px", ''))
 
-
 curr_duck.click()
+
 # 2 duck
-duck = driver.find_element_by_id("box-product")
+time.sleep(3)
+duck = driver.find_element_by_css_selector("#box-product")
 name_duck = duck.find_element_by_class_name("title").text
 # campaign_price
-campaign_price_duck = formate_price(
-    duck.find_element_by_class_name("campaign-price").text)
-# regular_price
-regular = duck.find_element_by_class_name("regular-price").
-regular_price_duck = formate_price(regular.text)
+campaign = duck.find_element_by_class_name("campaign-price")
 
-font_decoration_regular_price_duck = regular_price_duck.value_of_css_property(
-    "text-decoration-line")
-font_color_regular_price_duck = regular_price_duck.value_of_css_property(
-    "color")
-font_size_regular_price_duck = float(regular_price_duck.value_of_css_property(
+campaign_price_duck = formate_price(campaign.text)
+font_weight_campaign_price_duck = int(campaign.value_of_css_property(
+    "font-weight"))
+font_size_campaign_price_duck = float(campaign.value_of_css_property(
     "font-size").replace("px", ''))
-print(font_decoration_regular_price_duck)
-print(font_color_regular_price_duck)
-print(font_size_regular_price_duck)
+font_color_campaign_price_duck = slpit_rgba(campaign.value_of_css_property(
+    "color"))
+# regular_price
+regular = duck.find_element_by_class_name("regular-price")
+
+regular_price_duck = formate_price(regular.text)
+font_decoration_regular_price_duck = regular.get_attribute("outerHTML")[1:2]
+font_color_regular_price_duck = slpit_rgba(regular.value_of_css_property(
+    "color"))
+font_size_regular_price_duck = float(regular.value_of_css_property(
+    "font-size").replace("px", ''))
+
 
 # пункт a
 if name_duck == name_curr_duck:
@@ -85,14 +93,21 @@ if name_duck == name_curr_duck:
 if (formatted_campaign_price == campaign_price_duck) and (formatted_regular_price == regular_price_duck):
     print("Размеры цен совпадают")
 # пункт в
-if (font_decoration_regular_price == "line-through" and font_color_campaign_price == "rgba(204, 0, 0, 1)"):
+
+if (font_decoration_regular_price == "s" and font_color_regular_price[0] == font_color_regular_price[1] and font_color_regular_price[1] == font_color_regular_price[2]):
     print("Обычная цена серая и зачеркнутая на главной странице")
+if (font_decoration_regular_price_duck == "s" and font_color_regular_price_duck[0] == font_color_regular_price_duck[1] and
+        font_color_regular_price_duck[1] == font_color_regular_price_duck[2]):
+    print("Обычная цена серая и зачеркнутая на странице с товаром")
 # пункт г
-if (font_weight_campaign_price >= 700 and font_color_regular_price == "rgba(119, 119, 119, 1)"):  # todo
+if (font_weight_campaign_price >= 700 and font_color_campaign_price[1] == font_color_campaign_price[2]):
     print("Акционная цена красная и жирная на главной странице")
+
+if (font_weight_campaign_price_duck >= 700 and font_color_campaign_price_duck[1] == font_color_campaign_price_duck[2]):
+    print("Акционная цена красная и жирная на странице с товаром")
 # пункт д
 if (font_size_campaign_price > font_size_regular_price):
     print("Размер акционной цены крупнее обычной, на главной странице")
-if (font_size_campaign_price > font_size_regular_price):
-    print("Размер акционной цены крупнее обычной, на главной странице")
+if (font_size_campaign_price_duck > font_size_regular_price_duck):
+    print("Размер акционной цены крупнее обычной, на странице с товаром")
 driver.close()
