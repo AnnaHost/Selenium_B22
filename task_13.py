@@ -47,6 +47,9 @@ rows = len(driver.find_elements_by_css_selector(
     ".dataTable  .header~tr .item"))
 
 while rows != 0:
+
+    wait.until(EC.visibility_of(
+        driver.find_element_by_css_selector("[name=remove_cart_item]")))
     wait = WebDriverWait(driver, 0)
     wait.until(EC.element_to_be_clickable(
         (By .CSS_SELECTOR, "[name=remove_cart_item]"))).click()
