@@ -49,17 +49,16 @@ def sorted_geozone():
         zones = names[i].find_element_by_css_selector("td:nth-child(6)")
         if int(zones.text) != 0:
             names[i].find_element_by_css_selector("td:nth-child(5) a").click()
-            check_geozones()
+            check_geozones_countries()
             time.sleep(3)
-            driver.get(
-                "http://localhost/litecart/public_html/admin/?app=countries&doc=countries")
+            driver.back()
             table = driver.find_element_by_class_name("dataTable")
             names = table.find_elements_by_css_selector(".row")
             count = len(names)
         i = i+1
 
 
-def check_geozones():
+def check_geozones_countries():
     names = driver.find_elements_by_css_selector(
         ".dataTable td:nth-child(3) input")
     mass = []
@@ -83,9 +82,50 @@ def check_geozones():
         print("Список геозон не отсортирован")
 
 
-driver = webdriver.Chrome()
+def geozones(link):
+    driver.get(link)
+    countries = driver.find_elements_by_css_selector(
+        ".dataTable .row td:nth-child(3) a")
+    i = 0
+    while i < len(countries):
+        countries[i].click()
+        check_geozones()
+        driver.get(link)
+        countries = driver.find_elements_by_css_selector(
+            ".dataTable .row td:nth-child(3) a")
+        i = i + 1
+
+
+def check_geozones():
+    mass_geozone = driver.find_elements_by_css_selector(
+        "#table-zones tr td:nth-child(3) select")
+    mass = []
+    for countries in mass_geozone:
+        country = countries.find_elements_by_css_selector("option")
+        for state in country:
+            if state.get_attribute("selected") == "true":
+                mass.append(state.text)
+
+    sorted_mass = sorted(mass)
+    sort = True
+    i = 0
+    while i < len(mass):
+        if mass[i] != sorted_mass[i]:
+            sort = False
+            break
+        i = i + 1
+    if sorted_mass:
+        print("Список геозон отсортирован")
+    else:
+        print("Список геозон не отсортирован")
+
+
+#driver = webdriver.Chrome()
+driver = webdriver.Firefox()
+print("Задание 9.1")
 open_browser()
 sorted_table()
 sorted_geozone()
-
+print("Задание 9.2")
+geozones("http://localhost/litecart/public_html/admin/?app=geo_zones&doc=geo_zones")
 driver.close()
