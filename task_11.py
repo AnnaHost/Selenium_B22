@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from random import choice
 from string import ascii_uppercase
+from selenium.webdriver.support.select import Select
 import time
 
 # Проход по всем разделам на сайте
@@ -24,36 +25,29 @@ def registration_form():
     time.sleep(1)
     tax_id = driver.find_element_by_css_selector("[name=tax_id]")
     tax_id.send_keys("1234")
-    time.sleep(1)
     company = driver.find_element_by_css_selector("[name=company]")
     company.send_keys("222")
-    time.sleep(1)
     firstname = driver.find_element_by_css_selector("[name=firstname]")
     firstname.send_keys("Anna")
-    time.sleep(1)
     lastname = driver.find_element_by_css_selector("[name=lastname]")
     lastname.send_keys("Host")
-    time.sleep(1)
     postcode = driver.find_element_by_css_selector("[name=postcode]")
-    postcode.send_keys("225844")
-    time.sleep(1)
+    postcode.send_keys("11111-5555")
     city = driver.find_element_by_css_selector("[name=city]").send_keys("City")
-    time.sleep(1)
     address1 = driver.find_element_by_css_selector(
         "[name=address1]").send_keys("some states 123")
-    time.sleep(1)
     email = driver.find_element_by_css_selector(
         "[name=email]").send_keys(email_str)
-    time.sleep(1)
-    phone = driver.find_element_by_css_selector(
-        "[name=phone]").send_keys(Keys.HOME + "+7125487")
-    time.sleep(1)
     password = driver.find_element_by_css_selector(
         "[name=password]").send_keys(password_str)
-    time.sleep(1)
     confirmed_password = driver.find_element_by_css_selector(
         "[name=confirmed_password]").send_keys(password_str)
-    time.sleep(1)
+    select_reg = Select(
+        driver.find_element_by_css_selector("[name=country_code]"))
+    select_reg.select_by_value("US")
+    phone = driver.find_element_by_css_selector(
+        "[name=phone]").send_keys(Keys.HOME + "+125487")
+    time.sleep(3)
     driver.find_element_by_css_selector("[name=create_account]").click()
 
 
@@ -76,5 +70,7 @@ time.sleep(1)
 driver.find_element_by_css_selector(".list-vertical li:nth-child(4) a").click()
 time.sleep(1)
 login()
+time.sleep(1)
 driver.find_element_by_css_selector(".list-vertical li:nth-child(4) a").click()
-# driver.close()
+time.sleep(1)
+driver.close()
