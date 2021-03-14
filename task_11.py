@@ -42,9 +42,13 @@ def registration_form():
         "[name=password]").send_keys(password_str)
     confirmed_password = driver.find_element_by_css_selector(
         "[name=confirmed_password]").send_keys(password_str)
-    select_reg = Select(
-        driver.find_element_by_css_selector("[name=country_code]"))
-    select_reg.select_by_value("US")
+
+    sel = driver.find_element_by_css_selector("select")
+    driver.execute_script(
+        "arguments[0].selectedIndex=224; arguments[0].dispatchEvent(new Event('change'))", sel)
+
+    #select_reg = Select(sel)
+    # select_reg.select_by_value("US")
     phone = driver.find_element_by_css_selector(
         "[name=phone]").send_keys(Keys.HOME + "+125487")
     time.sleep(3)
@@ -58,9 +62,9 @@ def login():
     driver.find_element_by_css_selector("[name=login]").click()
 
 
-driver = webdriver.Chrome()
+#driver = webdriver.Chrome()
 #driver = webdriver.Firefox()
-#driver = webdriver.Ie()
+driver = webdriver.Ie()
 open_browser()
 
 registration_link = driver.find_element_by_css_selector(
