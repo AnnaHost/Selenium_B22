@@ -21,7 +21,7 @@ def open_browser():
     driver.find_element_by_name("login").click()
     driver.get(
         "http://localhost/litecart/public_html/admin/?app=catalog&doc=catalog")
-    time.sleep(3)
+    time.sleep(2)
 
 
 def filling_first_tab():
@@ -36,8 +36,6 @@ def filling_first_tab():
         "#tab-general > table > tbody > tr:nth-child(7) > td > div > table > tbody > tr:nth-child(2) > td:nth-child(1) > input[type=checkbox]").click()
     driver.find_element_by_css_selector(
         ".content table [name=quantity]").send_keys(Keys.HOME + "1")
-    print(os.path.realpath('1.jpg'))
-
     driver.find_element_by_css_selector(
         "input[type='file']").send_keys(os.path.realpath('1.jpg'))
     driver.find_element_by_css_selector(
