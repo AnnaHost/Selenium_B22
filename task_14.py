@@ -8,7 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# Проход по всем разделам на сайте
 email_str = ''.join(choice(ascii_uppercase) for i in range(12)) + "@ya.ru"
 password_str = "1q2w3e4r5t"
 
